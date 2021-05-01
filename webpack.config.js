@@ -1,6 +1,6 @@
-const path = require('path');
-const HtmlWebPackPlugin = require('html-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const path = require('path')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
 module.exports = {
     entry: './src/index.js',
@@ -8,8 +8,7 @@ module.exports = {
         path: path.resolve(__dirname, 'dist'),
         filename: 'bundle.js'
     },
-
-    resolve :{
+    resolve: {
         extensions: ['.js', '.jsx']
     },
     module: {
@@ -18,23 +17,19 @@ module.exports = {
                 test: /\.(js|jsx)$/,
                 exclude: /node_modules/,
                 use: {
-                    loader: "babel-loader"
+                    loader: 'babel-loader',
                 }
             },
             {
                 test: /\.html$/,
-                use: [
-                    {
-                        loader:'html-loader'             
-                    }
-                ]
+                use: {
+                    loader: 'html-loader',
+                }
             },
             {
-                test: /\.(s*)css$/,
+                test: /\.S[ac]ss$/i,
                 use: [
-                    {
-                        loader: MiniCssExtractPlugin.loader,
-                    },
+                    MiniCssExtractPlugin.loader,
                     'css-loader',
                     'sass-loader'
                 ]
@@ -42,12 +37,21 @@ module.exports = {
         ]
     },
     plugins: [
-       new HtmlWebPackPlugin ({
-         template: './public/index.html',
-         filename: './index.html'
+        new HtmlWebpackPlugin({
+            template: './public/index.html',
+            filename: './index.html'
         }),
         new MiniCssExtractPlugin({
             filename: 'assets/[name].css'
-        }),
-    ]
-};
+        })
+    ],
+    devServer: {
+        open: true,
+        
+        watchOptions:{
+            poll: true,
+            ignored: "/node_modules/"
+        }
+        
+    }
+}
